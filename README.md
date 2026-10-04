@@ -1,0 +1,1 @@
+# practichna2-task1.js
