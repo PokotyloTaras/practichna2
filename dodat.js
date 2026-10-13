@@ -152,6 +152,51 @@ function find_worst(Schedule, groupIndex){
     }
     return worstDay
 }
+function find_same(Schedule) {
+    const numGroups = Schedule.length;
+    const numDays = days.length;
+    const numPairs = Schedule[0][0].length;
+    const streams = [];
 
+    for (let dayI = 0; dayI < numDays; dayI++) {
+        for (let pairI = 0; pairI < numPairs; pairI++) {
+            const subjectMap = {};
+
+            for (let groupI = 0; groupI < numGroups; groupI++) {
+                const subject = Schedule[groupI][dayI][pairI];
+                if (subject !== W) {
+                    if (!subjectMap[subject]) {
+                        subjectMap[subject] = [];
+                    }
+                    subjectMap[subject].push(groups[groupI]);
+                }
+            }
+
+            for (const [subject, groupList] of Object.entries(subjectMap)) {
+                if (groupList.length > 1) {
+                    streams.push({
+                        day: days[dayI],
+                        pair: pairI + 1,
+                        subject: subject,
+                        groups: groupList
+                    });
+                }
+            }
+        }
+    }
+
+    console.log("\nПотокові заняття:");
+    if (streams.length === 0) {
+        console.log("Потокових занять не знайдено.");
+    } else {
+        streams.forEach(item => {
+            console.log(`- ${item.day}, ${item.pair}-я пара: «${item.subject}» (${item.groups.join(', ')})`);
+        });
+    }
+
+    return streams;
+}
+
+find_same(Schedule);
 find_hardest(Schedule, 0)
 find_worst(Schedule, 1)
