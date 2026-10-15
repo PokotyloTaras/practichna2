@@ -31,28 +31,23 @@ function ShowMatrix(matrix) {
     }
 }
 
-function rotate(matrix){
-    const n = matrix.length
+function rotate(matrix) {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const result = [];
 
-    for(let i = 0; i < n; i++){
-        for(let j = i + 1; j < n; j++){
-            const temp = matrix[i][j]
-            matrix[i][j] = matrix[j][i]
-            matrix[j][i] = temp
+    for (let col = 0; col < cols; col++) {
+        const newRow = [];
+        for (let row = rows - 1; row >= 0; row--) {
+            newRow.push(matrix[row][col]);
         }
+        result.push(newRow);
     }
 
-    for (let i = 0; i < n; i++){
-        for (let j = 0; j < Math.floor(n / 2); j++){
-            const temp = matrix[i][j];
-            matrix[i][j] = matrix[i][n - 1 - j];
-            matrix[i][n - 1 - j] = temp;
-        }
-    }
-    return matrix
+    return result;
 }
-const matrix = GeneratingMatrix(3, 3, 4, 333)
+const matrix = GeneratingMatrix(4,3 , 4, 333)
 ShowMatrix(matrix)
 
-const rotated = rotate(matrix)
-ShowMatrix(rotated)
+const rotated = rotate(matrix);
+ShowMatrix(rotated);
